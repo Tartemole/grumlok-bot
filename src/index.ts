@@ -3,12 +3,18 @@ import { Client, Events, GatewayIntentBits } from "discord.js";
 import { servirBiere } from "./commands/biere";
 import { unElfe } from "./commands/elfe";
 import { direBonjour } from "./commands/bonjour";
+import { existsSync } from "node:fs";
 
-// Chargement des variables d'environnement 
-process.loadEnvFile();
 
-//Récupération du token 
-const token = process.env.DISCORD_TOKEN;
+if (existsSync(".env")) {
+  process.loadEnvFile();
+}
+
+const token =
+  process.env.DISCORD_TOKEN ??
+  process.env.BOT_TOKEN ??
+  process.env.TOKEN;
+
 
 if (!token) {
   throw new Error("Le Token Discord est introuvable !");
